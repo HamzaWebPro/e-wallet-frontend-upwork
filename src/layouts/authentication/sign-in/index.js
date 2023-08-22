@@ -24,6 +24,7 @@ import { setCurrencys } from "context";
 import { SingIn } from "apis/request";
 import { SweetAlert } from "apis/sweetAlert";
 import Socials2 from "../components/Socials2";
+import { useSelector } from "react-redux";
 
 function SignIn() {
   const [controller, dispatch] = useSoftUIController();
@@ -90,6 +91,21 @@ function SignIn() {
       navegar("/activation-process-full");
     }
   }, []);
+
+// redux state for login
+let data = useSelector((state) => state);
+let navigate = useNavigate();
+useEffect(() => {
+  if (data.userData.userInfo) {
+   return navigate("/activation-process-full");
+  }
+  if (!data.userData.userInfo) {
+  return  navigate("/authentication/sign-in");
+  }
+}, []);
+
+
+
 
   return (
     <CoverLayout

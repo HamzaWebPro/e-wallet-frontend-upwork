@@ -1,4 +1,6 @@
 import { initializeApp } from "firebase/app";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   getAuth,
   signInWithRedirect,
@@ -13,7 +15,9 @@ import {
 } from "firebase/auth";
 import { autentificarUser, createEmailUser, getUserEmailData, singInGoogleUser } from "./request";
 
-const firebaseConfig = {
+
+
+export const firebaseConfig = {
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
   projectId: process.env.REACT_APP_projectId,
@@ -25,89 +29,98 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
 auth.useDeviceLanguage();
 const googleIn = new GoogleAuthProvider();
 const FaceIn = new FacebookAuthProvider();
 const twitterIn = new TwitterAuthProvider();
 
-export const SingInGoogle = () => {
-  return new Promise((res, rej) => {
-    signInWithPopup(auth, googleIn)
-      .then(async (result) => {
-        const credential = await GoogleAuthProvider.credentialFromResult(result);
-        // console.log(credential)
-        const token = await credential.idToken;
-        const user = await result.user;
-        const objectRequest = await { token: token };
+// export const SingInGoogle = () => {
+//   const app = initializeApp(firebaseConfig);
+//   const auth = getAuth(app);
+//   let disp = useDispatch();
+//   const navegar = useNavigate();
+//   return new Promise((res, rej) => {
+//     signInWithPopup(auth, googleIn)
+//       .then(async (result) => {
+//         const credential = await GoogleAuthProvider.credentialFromResult(result);
+//         // console.log(credential)
+//         const token = await credential.idToken;
+//         const user = await result.user;
+//         const objectRequest = await { token: token };
 
-        // console.log(user);
+//         // console.log(user);
 
-        // console.log(result);
+//         // console.log(result);
+// // console.log(result);
+// //         const userInfo = {
+// //           uname: user.displayName,
+// //           firstName: result._tokenResponse.firstName,
+// //           lastName: result._tokenResponse.lastName,
+// //           email: user.email,
+// //           emailVerified: user.emailVerified,
+// //           photoUrl: user.reloadUserInfo.photoUrl,
+// //         };
 
-        const userInfo = {
-          uname: user.displayName,
-          firstName: result._tokenResponse.firstName,
-          lastName: result._tokenResponse.lastName,
-          email: user.email,
-          emailVerified: user.emailVerified,
-          photoUrl: user.reloadUserInfo.photoUrl,
-        };
+// //         let userData = JSON.stringify({
+// //           ...userInfo,
+// //         });
+// //         localStorage.setItem("walletUser", userData);
+// //         res(userInfo);
 
-        let userData = JSON.stringify({
-          ...userInfo,
-        });
-        localStorage.setItem("walletUser", userData);
-        res(userInfo);
+//         // autentificarUser(objectRequest)
+//         //   .then((data) => {
+//         //     res(data);
+//         //   })
+//         //   .catch((error) => {
+//         //     rej(error);
+//         //   });
+//         setTimeout(() => {
+//           navegar("/activation-process-full")
+//         }, 3000);
+//         disp(activeUser(result.user));
+//         localStorage.setItem("userInfo", JSON.stringify(result.user));
+//         navegar("/activation-process-full")
+//       })
+//       .catch((error) => {
+//         rej(error);
+//       });
+//   });
 
-        // autentificarUser(objectRequest)
-        //   .then((data) => {
-        //     res(data);
-        //   })
-        //   .catch((error) => {
-        //     rej(error);
-        //   });
-      })
-      .catch((error) => {
-        rej(error);
-      });
-  });
+//   // return signInWithPopup(auth, googleIn)
+//   //   .then(async (result) => {
+//   //     const credential = await GoogleAuthProvider.credentialFromResult(result);
+//   //     // console.log(credential)
+//   //     const token = await credential.idToken;
+//   //     const user = await result.user;
+//   //     const objectRequest = await { token: token };
 
-  // return signInWithPopup(auth, googleIn)
-  //   .then(async (result) => {
-  //     const credential = await GoogleAuthProvider.credentialFromResult(result);
-  //     // console.log(credential)
-  //     const token = await credential.idToken;
-  //     const user = await result.user;
-  //     const objectRequest = await { token: token };
+//   //     const userInfo = {
+//   //       uname: user.displayName,
+//   //       email: user.email,
+//   //       emailVerified: user.emailVerified,
+//   //       photoUrl: user.reloadUserInfo.photoUrl,
+//   //     }
 
-  //     const userInfo = {
-  //       uname: user.displayName,
-  //       email: user.email,
-  //       emailVerified: user.emailVerified,
-  //       photoUrl: user.reloadUserInfo.photoUrl,
-  //     }
+//   //     // console.log("userinfo",user);
+//   //     console.log("userinfo", userInfo);
 
-  //     // console.log("userinfo",user);
-  //     console.log("userinfo", userInfo);
+//   //     // return userInfo;
+//   //     // console.log(token);
 
-  //     // return userInfo;
-  //     // console.log(token);
-
-  //     // autentificarUser(objectRequest)  email, emailVerified, reloadUserInfo.photoUrl
-  //     //   .then((data) => {
-  //     //     console.log("firebase", data);
-  //     //     return data
-  //     //   })
-  //     //   .catch((error) => {
-  //     //     return error
-  //     //   });
-  //   })
-  //   .catch((error) => {
-  //     // return error
-  //   });
-};
+//   //     // autentificarUser(objectRequest)  email, emailVerified, reloadUserInfo.photoUrl
+//   //     //   .then((data) => {
+//   //     //     console.log("firebase", data);
+//   //     //     return data
+//   //     //   })
+//   //     //   .catch((error) => {
+//   //     //     return error
+//   //     //   });
+//   //   })
+//   //   .catch((error) => {
+//   //     // return error
+//   //   });
+// };
 
 export const SingInGoogle2 = () => {
   return new Promise(async (res, rej) => {

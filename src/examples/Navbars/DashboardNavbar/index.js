@@ -46,8 +46,11 @@ import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 import { MenuOpen } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { setLayout } from "context";
+import { useDispatch, useSelector } from "react-redux";
+import { activeUser } from "Slices/userSlices";
 
 function DashboardNavbar({ absolute, light, isMini }) {
+ 
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
@@ -133,13 +136,15 @@ function DashboardNavbar({ absolute, light, isMini }) {
       />
     </Menu>
   );
-
+  let disp = useDispatch();
   const handleSignOut = () => {
-    signOut(auth).then(() => {
-      localStorage.removeItem("walletUser");
+    
+      disp(activeUser(null));
+      localStorage.removeItem("userInfo");
       navigate("/authentication/sign-in");
-    });
+   
   };
+   let data = useSelector((state) => state)
 
   return (
     <AppBar
@@ -154,15 +159,9 @@ function DashboardNavbar({ absolute, light, isMini }) {
           <IconButton onClick={() => setMiniSidenav(dispatch, !miniSidenav)}>
             {miniSidenav ? <MenuIcon /> : <MenuOpen />}
           </IconButton>
-        <SoftTypography
-
-                  variant="button"
-                  fontWeight="medium"
-                  color={light ? "white" : "dark"}
-                 
-                >
-                   {JSON.parse(localStorage.getItem("walletUser"))}
-                </SoftTypography>
+          <SoftTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
+            {JSON.parse(localStorage.getItem("walletUser"))}
+          </SoftTypography>
         </SoftBox>
         {isMini ? null : (
           <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
@@ -192,12 +191,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   fontWeight="medium"
                   color={light ? "white" : "dark"}
                 >
-                  Sign out 
-                </SoftTypography> 
-         
-                  
-                
+                  Sign out
+                </SoftTypography>
               </IconButton>
+             
 
               {/* </Link> */}
               <IconButton
@@ -218,6 +215,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon>settings</Icon>
               </IconButton>
+          
               <IconButton
                 size="small"
                 color="inherit"
@@ -229,6 +227,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon className={light ? "text-white" : "text-dark"}>notifications</Icon>
               </IconButton>
+              {data.userData.userInfo.displayName && <p>{   data.userData.userInfo.displayName }</p>}
               {renderMenu()}
             </SoftBox>
           </SoftBox>

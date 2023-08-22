@@ -2,13 +2,15 @@ import { Card, Grid, Step, StepLabel, Stepper } from "@mui/material";
 import SoftBox from "components/SoftBox";
 import SoftButton from "components/SoftButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import About from "./About";
 import Address from "./Address";
 import Socials from "./Socials";
 import Identity from "./Identity";
 import { useSoftUIController } from "context";
 import SoftAlert from "components/SoftAlert";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function FullProcess() {
   const [controller, dispatch] = useSoftUIController();
@@ -29,6 +31,17 @@ function FullProcess() {
   ];
 
   const [activeStep, setActiveStep] = useState(formStep[0]);
+  // redux state for login
+  let data = useSelector((state) => state);
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (data.userData.userInfo) {
+     return navigate("/activation-process-full");
+    }
+    if (!data.userData.userInfo) {
+    return  navigate("/authentication/sign-in");
+    }
+  }, []);
 
   return (
     <>

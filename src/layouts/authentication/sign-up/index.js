@@ -15,6 +15,7 @@ import { setUser } from "context";
 import { useSoftUIController } from "context";
 import { SweetAlert } from "apis/sweetAlert";
 import { SignUpR } from "apis/request";
+import { useSelector } from "react-redux";
 
 function SignUp() {
   const [controller, dispatch] = useSoftUIController();
@@ -167,16 +168,16 @@ function SignUp() {
     return true;
   }
 
-  const userData = localStorage.getItem("walletUser")
-    ? JSON.parse(localStorage.getItem("walletUser"))
-    : true;
 
-  useEffect(() => {
-    if (userData.emailVerified) {
-      navegar("/activation-process-full");
-    }
-  }, []);
 
+    let data = useSelector((state) => state);
+    let navigate = useNavigate();
+    useEffect(() => {
+      if (data.userData.userInfo) {
+       return navigate("/activation-process-full");
+      }
+    
+    }, []);
 
   return (
     <BasicLayout

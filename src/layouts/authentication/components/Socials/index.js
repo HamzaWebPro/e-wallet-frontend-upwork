@@ -2,13 +2,26 @@
 import SoftButton from "components/SoftButton";
 import SoftBox from "components/SoftBox";
 import { SingInFace } from "apis/firebase";
-import { SingInGoogle } from "apis/firebase";
 import { useSoftUIController } from "context";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "context";
 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+} from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { activeUser } from "Slices/userSlices";
+
 function Socials() {
   const [controller, dispatch] = useSoftUIController();
+  const googleIn = new GoogleAuthProvider();
+  let disp = useDispatch();
+  const auth = getAuth();
+
 
   const navegar = useNavigate();
 
@@ -18,17 +31,15 @@ function Socials() {
     });
   }
 
-  function singGmail() {
-    // SingInGoogle().then((user) => {
-    //   // await setUser(dispatch, user)
-    //   // navegar("/activation-process-full")
-    //   let abb = user;
-    //   console.log("myData", user);
-    // })
+async  function singGmail() {
+    signInWithPopup(auth, googleIn).then ((userCredential) => {
+      console.log(userCredential);
 
-    SingInGoogle().then((user) => {
-      setUser(dispatch, user);
+      disp(activeUser(userCredential));
+
       navegar("/activation-process-full");
+
+      localStorage.setItem("userInfo", JSON.stringify(userCredential.user));
     });
   }
 

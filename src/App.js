@@ -173,7 +173,7 @@ export default function App() {
         {getRoutes(routes)}
         <Route path="/authentication/sign-in" element={<SignIn />} />
         <Route path="/authentication/sign-up" element={<SignUp />} />
-        <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
+        <Route path="/" element={<Navigate to="/authentication/sign-in" />} />
         <Route path="/activation-process" element={<NewUser />} />
         <Route path="/activation-process-full" element={<FullProcess />} />
         <Route path="/forget" element={<ForgetPass/>} />
