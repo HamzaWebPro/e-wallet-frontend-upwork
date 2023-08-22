@@ -35,7 +35,7 @@ async  function singGmail() {
     signInWithPopup(auth, googleIn).then ((userCredential) => {
       console.log(userCredential);
 
-      disp(activeUser(userCredential));
+      disp(activeUser(userCredential.user));
 
       navegar("/activation-process-full");
 

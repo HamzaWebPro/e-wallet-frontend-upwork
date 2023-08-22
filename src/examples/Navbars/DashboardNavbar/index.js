@@ -144,7 +144,18 @@ function DashboardNavbar({ absolute, light, isMini }) {
       navigate("/authentication/sign-in");
    
   };
-   let data = useSelector((state) => state)
+  let data = useSelector((state) => state);
+  
+ 
+    
+ 
+useEffect(()=>{
+  
+},[data])
+    
+   
+
+ 
 
   return (
     <AppBar
@@ -227,7 +238,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon className={light ? "text-white" : "text-dark"}>notifications</Icon>
               </IconButton>
-              {data.userData.userInfo.displayName && <p>{   data.userData.userInfo.displayName }</p>}
+           <p>{data.userData.userInfo.displayName}</p>
               {renderMenu()}
             </SoftBox>
           </SoftBox>
