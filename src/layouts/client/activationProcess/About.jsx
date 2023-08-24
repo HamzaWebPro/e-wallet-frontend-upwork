@@ -161,13 +161,7 @@ export default function About({ onSave }) {
                 }
                 name="name"
                 onChange={handleFormChange}
-                value={
-                  controller.user.firstName
-                    ? controller.user.firstName
-                    : userData
-                    ? userData.firstName
-                    : ""
-                }
+               
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={4}>
@@ -184,13 +178,7 @@ export default function About({ onSave }) {
                 }
                 name="lastName"
                 onChange={handleFormChange}
-                value={
-                  controller.user.lastName
-                    ? controller.user.lastName
-                    : userData
-                    ? userData.lastName
-                    : ""
-                }
+           
               />
             </Grid>
           </Grid>
@@ -204,9 +192,7 @@ export default function About({ onSave }) {
                   controller.user.email ? controller.user.email : userData ? userData.email : ""
                 }
                 name="email"
-                value={
-                  controller.user.email ? controller.user.email : userData ? userData.email : ""
-                }
+               
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={6}>
@@ -218,9 +204,7 @@ export default function About({ onSave }) {
                   controller.user.email ? controller.user.email : userData ? userData.email : ""
                 }
                 name="CEmail"
-                value={
-                  controller.user.email ? controller.user.email : userData ? userData.email : ""
-                }
+              
               />
             </Grid>
           </Grid>
@@ -247,7 +231,7 @@ export default function About({ onSave }) {
                     </Grid>*/}
           </Grid>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} xl={6}>
+            <Grid item xs={12} sm={6} xl={6} marginTop={"25px"}>
               <label>Phone</label>
               <input
                 class="multisteps-form__input form-control"
